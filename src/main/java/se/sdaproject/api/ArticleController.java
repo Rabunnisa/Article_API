@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.sdaproject.model.Article;
 import se.sdaproject.repository.ArticleRepository;
-import se.sdaproject.ResourceNotFoundException;
+import se.sdaproject.service.ResourceNotFoundException;
 
 import java.util.List;
 

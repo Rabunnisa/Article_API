@@ -4,12 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.w3c.dom.Comment;
 import se.sdaproject.model.Article;
 import se.sdaproject.model.Topic;
 import se.sdaproject.repository.ArticleRepository;
 import se.sdaproject.repository.TopicRepository;
-import se.sdaproject.ResourceNotFoundException;
+import se.sdaproject.service.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -80,9 +79,7 @@ return topics;
                   }
    }
 
-
-
-  @DeleteMapping("topics/{topicsId}")
+   @DeleteMapping("topics/{topicsId}")
       @ResponseStatus(HttpStatus.NO_CONTENT)
        public void deleteTopic(@PathVariable Long topicsId) {
         Topic topics = topicRepository.findById(topicsId).orElseThrow(ResourceNotFoundException::new);

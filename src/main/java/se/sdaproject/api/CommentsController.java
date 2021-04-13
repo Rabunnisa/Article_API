@@ -8,7 +8,7 @@ import se.sdaproject.model.Article;
 import se.sdaproject.model.Comments;
 import se.sdaproject.repository.ArticleRepository;
 import se.sdaproject.repository.CommentRepository;
-import se.sdaproject.ResourceNotFoundException;
+import se.sdaproject.service.ResourceNotFoundException;
 
 import java.util.List;
 
