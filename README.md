@@ -68,7 +68,7 @@ on which the comment was posted. Each article can have zero or more comments.
 ### Topics
 We have  categorized our articles by topics. Each topic can be applied to zero or many articles and each article can have zero or many topics.
 
-Example JSON response when requesting an article should now be:
+
 
 
 
