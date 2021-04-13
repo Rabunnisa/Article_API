@@ -48,13 +48,12 @@ public class CommentsController {
         commentsRepository.delete(comments);
         return  ResponseEntity.ok(comments);
     }
-    @GetMapping("/articles/{articleId}/comments")
-    public ResponseEntity<Comments >  getAllCommentsToParticularArticle(@PathVariable Long articleId  , @RequestBody Comments comments)  {
+    /*@GetMapping("/articles/{articleId}/comments")
+    public ResponseEntity<List<Comments >>  getAllCommentsToParticularArticle(@PathVariable Long articleId  , @RequestBody Comments comments)  {
         Article article = articleRepository.findById(articleId).orElseThrow(ResourceNotFoundException::new);
-        article.getComments();
-
-        return ResponseEntity.ok(comments);
-    }
+        articleRepository.findByComment(comments);
+        return ResponseEntity.ok(articleRepository.findByComment( comments));
+    }*/
 
     @GetMapping(value = "/comments", params = {"author"})
     public ResponseEntity<List<Comments>> getCommentForParticularAuthor(@RequestParam String author){

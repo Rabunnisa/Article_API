@@ -18,8 +18,9 @@ public class Topic {
 
 
     @ManyToMany
+
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    //@JsonIdentityReference(alwaysAsId = true)
+    @JsonIdentityReference(alwaysAsId = true)
     private List<Article> articles;
 
 

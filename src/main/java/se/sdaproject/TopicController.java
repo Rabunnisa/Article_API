@@ -18,11 +18,14 @@ public class TopicController {
         this.topicRepository = topicRepository;
         this.articleRepository = articleRepository;
     }
+
+
 @PostMapping("/topics")
     public ResponseEntity<Topic> createTopic(@RequestBody Topic topics){
     topicRepository.save(topics);
     return ResponseEntity.status(HttpStatus.CREATED).body(topics);
 }
+
 @PostMapping("/article/{articleId}/topics/{topicId}")
     public ResponseEntity<Topic> addTopicToTheArticle(  @PathVariable Long articleId, @PathVariable Long topicId){
     Topic topic = topicRepository.findById(topicId).orElseThrow(ResourceNotFoundException::new);
@@ -46,15 +49,18 @@ return topics;
           return ResponseEntity.ok(topics)     ;
 }
 
-@GetMapping("/topics/{topicsId}/articles")
+@GetMapping("/topics/{topicId}/articles")
     public ResponseEntity<List<Article >> listArticlesByTopicId(@PathVariable Long topicId) {
     Topic topics = topicRepository.findById(topicId).orElseThrow(ResourceNotFoundException::new);
     List<Article> article = topics.getArticles();
+
     return ResponseEntity.ok(article);
 }
-     @DeleteMapping("articles/{articleId}/topics/{topicsId}")
-      @ResponseStatus(HttpStatus.NO_CONTENT)
-      public void deleteTopicsWithArticleId(@PathVariable Long articleId, @PathVariable Long topicsId) {
+
+
+ @DeleteMapping("articles/{articleId}/topics/{topicsId}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+   public void deleteTopicsWithArticleId(@PathVariable Long articleId, @PathVariable Long topicsId) {
                     Article article = articleRepository.findById(articleId).orElseThrow(ResourceNotFoundException::new);
                     Topic topic = topicRepository.findById(topicsId).orElseThrow(ResourceNotFoundException::new);
                   if (article.getTopics().contains(article)) {
@@ -63,9 +69,11 @@ return topics;
                               } else{
                   }               throw new ResourceNotFoundException();          }
 
-            @DeleteMapping("topics/{topicsId}")
-                @ResponseStatus(HttpStatus.NO_CONTENT)
-                public void deleteTopic(@PathVariable Long topicsId) {
-                Topic topics = topicRepository.findById(topicsId).orElseThrow(ResourceNotFoundException::new);
-                  topicRepository.delete(topics);
+
+
+  @DeleteMapping("topics/{topicsId}")
+      @ResponseStatus(HttpStatus.NO_CONTENT)
+       public void deleteTopic(@PathVariable Long topicsId) {
+        Topic topics = topicRepository.findById(topicsId).orElseThrow(ResourceNotFoundException::new);
+        topicRepository.delete(topics);
             }                         }
