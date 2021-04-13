@@ -1,10 +1,14 @@
-package se.sdaproject;
+package se.sdaproject.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import se.sdaproject.model.Article;
+import se.sdaproject.model.Comments;
+import se.sdaproject.repository.ArticleRepository;
+import se.sdaproject.repository.CommentRepository;
+import se.sdaproject.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -48,12 +52,13 @@ public class CommentsController {
         commentsRepository.delete(comments);
         return  ResponseEntity.ok(comments);
     }
-    /*@GetMapping("/articles/{articleId}/comments")
-    public ResponseEntity<List<Comments >>  getAllCommentsToParticularArticle(@PathVariable Long articleId  , @RequestBody Comments comments)  {
+    @GetMapping("/articles/{articleId}/comments")
+    public ResponseEntity<List<Comments >>  getAllCommentsToParticularArticle(@PathVariable Long articleId  )  {
         Article article = articleRepository.findById(articleId).orElseThrow(ResourceNotFoundException::new);
-        articleRepository.findByComment(comments);
-        return ResponseEntity.ok(articleRepository.findByComment( comments));
-    }*/
+
+
+        return ResponseEntity.ok( article.getComments());
+    }
 
     @GetMapping(value = "/comments", params = {"author"})
     public ResponseEntity<List<Comments>> getCommentForParticularAuthor(@RequestParam String author){

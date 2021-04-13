@@ -1,9 +1,15 @@
-package se.sdaproject;
+package se.sdaproject.api;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.w3c.dom.Comment;
+import se.sdaproject.model.Article;
+import se.sdaproject.model.Topic;
+import se.sdaproject.repository.ArticleRepository;
+import se.sdaproject.repository.TopicRepository;
+import se.sdaproject.ResourceNotFoundException;
 
 import java.util.List;
 
@@ -21,22 +27,25 @@ public class TopicController {
 
 
 @PostMapping("/topics")
-    public ResponseEntity<Topic> createTopic(@RequestBody Topic topics){
-    topicRepository.save(topics);
-    return ResponseEntity.status(HttpStatus.CREATED).body(topics);
-}
-
-@PostMapping("/article/{articleId}/topics/{topicId}")
-    public ResponseEntity<Topic> addTopicToTheArticle(  @PathVariable Long articleId, @PathVariable Long topicId){
-    Topic topic = topicRepository.findById(topicId).orElseThrow(ResourceNotFoundException::new);
-    Article article=   articleRepository.findById(articleId).orElseThrow(ResourceNotFoundException::new);
-
-    topic.getArticles().add(article);
+    public ResponseEntity<Topic> createTopic(@RequestBody Topic topic){
     topicRepository.save(topic);
     return ResponseEntity.status(HttpStatus.CREATED).body(topic);
 }
 
-@GetMapping("/topic")
+@PostMapping("/article/{articleId}/topics")
+    public ResponseEntity<Topic> addTopicToTheArticle(@PathVariable Long articleId ,@RequestBody Topic topics){
+    //Topic topic = topicRepository.findById(topicId).orElseThrow(ResourceNotFoundException::new);
+    Article article=   articleRepository.findById(articleId).orElseThrow(ResourceNotFoundException::new);
+    Topic topicsSearch = topicRepository.findByNames(topics.getNames()).orElse(topics);
+
+
+    List<Article> topicArticles = topicsSearch.getArticles();
+    topicArticles.add(article);
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(topicRepository.save(topicsSearch));
+}
+
+@GetMapping("/topics")
 public List<Topic> listAllTopics()
 { List<Topic> topics= topicRepository.findAll();
 return topics;
@@ -59,15 +68,17 @@ return topics;
 
 
  @DeleteMapping("articles/{articleId}/topics/{topicsId}")
-  @ResponseStatus(HttpStatus.NO_CONTENT)
+ @ResponseStatus(HttpStatus.NO_CONTENT)
    public void deleteTopicsWithArticleId(@PathVariable Long articleId, @PathVariable Long topicsId) {
                     Article article = articleRepository.findById(articleId).orElseThrow(ResourceNotFoundException::new);
-                    Topic topic = topicRepository.findById(topicsId).orElseThrow(ResourceNotFoundException::new);
-                  if (article.getTopics().contains(article)) {
-                      topic.getArticles().remove(topic);
-                                  topicRepository.save(topic);
-                              } else{
-                  }               throw new ResourceNotFoundException();          }
+                    Topic topics = topicRepository.findById(topicsId).orElseThrow(ResourceNotFoundException::new);
+                  if (topics.getArticles().contains(article)) {
+                      topics.getArticles().remove(article);
+                      topicRepository.save(topics);
+                  } else{
+                      throw new ResourceNotFoundException();
+                  }
+   }
 
 
 

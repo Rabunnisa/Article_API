@@ -1,7 +1,4 @@
-package se.sdaproject;
-
-import com.fasterxml.jackson.annotation.*;
-import org.springframework.http.ResponseEntity;
+package se.sdaproject.model;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -25,16 +22,9 @@ public class Article {
     @OneToMany(mappedBy= "article")
     public List<Comments> comments = new ArrayList<>();
 
-    public List<Topic> getTopics() {
-        return topics;
-    }
-
-    public void setTopics(List<Topic> topics) {
-        this.topics = topics;
-    }
 
     @ManyToMany(mappedBy = "articles")
-   private List<Topic> topics;
+    private List<Topic> topics;
 
 
     public Article() {
@@ -87,5 +77,11 @@ public class Article {
         this.comments = comments;
     }
 
+    public List<Topic> getTopics() {
+        return topics;
+    }
 
+    public void setTopics(List<Topic> topics) {
+        this.topics = topics;
+    }
 }
