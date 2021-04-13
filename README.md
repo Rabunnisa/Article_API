@@ -31,9 +31,7 @@ spring.jpa.hibernate.ddl-auto=create
 ## How to run the application 
 
 #### => Clone the repository from gitHub.
-#### => Setup the dockerized PostgreSQL database and start the docker
-
-``docker-compose up
+#### => Setup the dockerized PostgreSQL database .
 ``
 #### => Check for the `docker-compose.yaml ` file with built in setup..
 
